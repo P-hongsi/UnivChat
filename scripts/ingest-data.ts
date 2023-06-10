@@ -26,7 +26,7 @@ export const run = async () => {
       '.docx': (path) => new DocxLoader(path),
       '.json': (path) => new JSONLoader(path, "/texts"),
       '.jsonl': (path) => new JSONLinesLoader(path, "/html"),
-      '.txt': (path) => new TextLoader(path),
+      '.txt': (path) => new TextLoader(path,),
       '.csv': (path) => new CSVLoader(path)
     });
 
