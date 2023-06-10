@@ -1,20 +1,20 @@
-import { useRef, useState, useEffect } from 'react';
-import Layout from '@/components/layout';
-import styles from '@/styles/Home.module.css';
-import { Message } from '@/types/chat';
-import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
-import LoadingDots from '@/components/ui/LoadingDots';
-import { Document } from 'langchain/document';
+import { useRef, useState, useEffect } from "react";
+import Layout from "@/components/layout";
+import styles from "@/styles/Home.module.css";
+import { Message } from "@/types/chat";
+import Image from "next/image";
+import ReactMarkdown from "react-markdown";
+import LoadingDots from "@/components/ui/LoadingDots";
+import { Document } from "langchain/document";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
+} from "@/components/ui/accordion";
 
 export default function Home() {
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
@@ -25,8 +25,8 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: '안녕하세요, 부산대와 부경대의 학과에 대해 질문해보세요!',
-        type: 'apiMessage',
+        message: "안녕하세요, 부산대와 부경대의 학과정보에 대해 질문해보세요!",
+        type: "apiMessage",
       },
     ],
     history: [],
@@ -48,7 +48,7 @@ export default function Home() {
     setError(null);
 
     if (!query) {
-      alert('Please input a question');
+      alert("Please input a question");
       return;
     }
 
@@ -59,20 +59,20 @@ export default function Home() {
       messages: [
         ...state.messages,
         {
-          type: 'userMessage',
+          type: "userMessage",
           message: question,
         },
       ],
     }));
 
     setLoading(true);
-    setQuery('');
+    setQuery("");
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           question,
@@ -80,7 +80,7 @@ export default function Home() {
         }),
       });
       const data = await response.json();
-      console.log('data', data);
+      console.log("data", data);
 
       if (data.error) {
         setError(data.error);
@@ -90,7 +90,7 @@ export default function Home() {
           messages: [
             ...state.messages,
             {
-              type: 'apiMessage',
+              type: "apiMessage",
               message: data.text,
               sourceDocs: data.sourceDocuments,
             },
@@ -98,7 +98,7 @@ export default function Home() {
           history: [...state.history, [question, data.text]],
         }));
       }
-      console.log('messageState', messageState);
+      console.log("messageState", messageState);
 
       setLoading(false);
 
@@ -106,16 +106,16 @@ export default function Home() {
       messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
     } catch (error) {
       setLoading(false);
-      setError('An error occurred while fetching the data. Please try again.');
-      console.log('error', error);
+      setError("An error occurred while fetching the data. Please try again.");
+      console.log("error", error);
     }
   }
 
   //prevent empty submissions
   const handleEnter = (e: any) => {
-    if (e.key === 'Enter' && query) {
+    if (e.key === "Enter" && query) {
       handleSubmit(e);
-    } else if (e.key == 'Enter') {
+    } else if (e.key == "Enter") {
       e.preventDefault();
     }
   };
@@ -125,7 +125,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat With Your Docs
+            대학 도우미 챗봇🤖
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -133,7 +133,7 @@ export default function Home() {
                 {messages.map((message, index) => {
                   let icon;
                   let className;
-                  if (message.type === 'apiMessage') {
+                  if (message.type === "apiMessage") {
                     icon = (
                       <Image
                         key={index}
@@ -222,9 +222,7 @@ export default function Home() {
                     id="userInput"
                     name="userInput"
                     placeholder={
-                      loading
-                        ? '기다려 주세요...'
-                        : '무엇이 궁금하시나요?'
+                      loading ? "기다려 주세요..." : "무엇이 궁금하시나요?"
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
