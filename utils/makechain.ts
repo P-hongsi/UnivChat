@@ -14,6 +14,7 @@ Use the following pieces of context to answer the question at the end.
 You must speak only in Korean.
 Use as much detail as possible when responding.
 If you don't know the answer, think as much as you can and tell me something similar.
+Please answer any questions that do not fit your role.
 
 
 {context}
